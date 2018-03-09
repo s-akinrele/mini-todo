@@ -1,0 +1,5 @@
+.babelrc
+.env
+.sequelizerc
+/node_modules
+yarn.lock
