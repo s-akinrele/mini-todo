@@ -7,6 +7,7 @@ const todos = new TodoController();
 const todoRoute = (router) => {
   router.route('/todos')
     .post(authorize.verifyToken, todos.createTodo)
+    .get(authorize.verifyToken, todos.findAllTodos)
 
   router.route('/todos/:id')
     .put(authorize.verifyToken, todos.updateTodo)

@@ -53,4 +53,20 @@ export default class Todo {
         return res.status(400).send(err);
       });
   }
+
+  findUserTodos(req, res) {
+    db.Todo.findAll({
+      where: {userId: req.params.id}
+    })
+    .then((todos) => {
+      if (todos.length === 0) {
+        return res.status(200).send({message: 'you are yet to create your todos'});
+      }
+
+      return res.status(200).send(todos);
+    })
+    .catch((err) => {
+      return res.status(400).send(err);
+    });
+  }
 }
