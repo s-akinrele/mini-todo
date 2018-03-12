@@ -8,6 +8,7 @@ const itemRoute = (router) => {
   router.route('/todos/:id/item')
     .post(authorize.verifyToken, itemlist.createItemList)
     .put(authorize.verifyToken, itemlist.updateItemList)
+    .get(authorize.verifyToken, itemlist.fetchItemList)
 }
 
 export default itemRoute;

@@ -56,11 +56,36 @@ export default class Item {
         })
         .catch((err) => {
           return res.status(400).send(err);
-        });   
+        });
       })
       .catch((err) => {
         return res.status(400).send(err);
       });   
     });
+  }
+
+  fetchItemList(req, res) {
+    db.Todo.findOne({
+      where: {id: req.params.id}
+    })
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send({message: 'todo not found'})
+      }
+
+      db.Item.findAll({
+        where: {todoId: todo.id}
+      })
+      .then((items) => {
+        if (!items) {
+          return res.status(404).send({message: 'you have no items'})
+        }
+        
+        return res.status(200).send(items)    
+      })
+      .catch((err) => {
+        return res.status(400).send(err);
+      }); 
+    })
   }
 }
