@@ -1,6 +1,4 @@
 import db from '../models';
-
-
 export default class Todo {
 
   createTodo(req, res) {
@@ -55,18 +53,44 @@ export default class Todo {
   }
 
   findUserTodos(req, res) {
-    db.Todo.findAll({
-      where: {userId: req.params.id}
+    db.User.findOne({
+      where: {id: req.params.id}
     })
-    .then((todos) => {
-      if (todos.length === 0) {
-        return res.status(200).send({message: 'you are yet to create your todos'});
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({message: 'User doesnt exist'})
       }
 
-      return res.status(200).send(todos);
+      db.Todo.findAll({
+        where: {userId: user.id}
+      })
+      .then((todos) => {
+        if (todos.length === 0) {
+          return res.status(200).send({message: 'you are yet to create your todos'});
+        }
+
+        return res.status(200).send(todos);
+      })
     })
     .catch((err) => {
       return res.status(400).send(err);
     });
+  }
+
+  deleteTodo(req, res) {
+    db.Todo.findOne({
+      where: {id: req.params.id}
+    })
+    .then((todo) => {
+      if (!todo) {
+        return res.status(400).send({message: 'todo not found'})
+      }
+
+      todo.destroy()
+      return res.status(200).send({message: 'delete successful'})
+    })
+    .catch((err) => {
+      return res.status(400).send(err);
+    })
   }
 }

@@ -11,6 +11,7 @@ const todoRoute = (router) => {
 
   router.route('/todos/:id')
     .put(authorize.verifyToken, todos.updateTodo)
+    .delete(authorize.verifyToken, todos.deleteTodo)
 }
 
 export default todoRoute;

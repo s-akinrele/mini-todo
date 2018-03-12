@@ -131,8 +131,8 @@ export default class Users {
       }
 
       if (bcrypt.compareSync(req.body.old_password, user.password)) {
-        const newPassword = bcrypt.hashSync(req.body.password);
-        user.update({password: newPassword})
+        const newPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+        user.update({ password: newPassword })
         return res.status(200).send({message: 'password update successful'});
       }
     })

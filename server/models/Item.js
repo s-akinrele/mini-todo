@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    states: {
-      defaultValue: 'start',
+    status: {
+      defaultValue: 'unstarted',
       type:   DataTypes.ENUM,
-      values: ['start', 'complete']
+      values: ['unstarted', 'started', 'complete']
     },
     todoId: {
       type: DataTypes.INTEGER,
