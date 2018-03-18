@@ -11,23 +11,18 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       defaultValue: 'unstarted',
       type:   DataTypes.ENUM,
-      values: ['unstarted', 'started', 'complete']
-    },
-    todoId: {
-      type: DataTypes.INTEGER,
+      values: ['unstarted', 'started', 'complete'],
       allowNull: false
     }
-  },
-    {
-      classMethods: {
-        associate: (models) => {
-          Item.belongsTo(models.Todo, {
-            onDelete: 'CASCADE',
-            foreignKey: { allowNull: false }
-        });
-      }
-    }
-  });
+  }
+);
+
+  Item.associate = function(models) {
+    Item.belongsTo(models.Todo, {
+      onDelete: 'CASCADE',
+      foreignKey: { allowNull: false }
+    });
+  }
 
   return Item;
 };

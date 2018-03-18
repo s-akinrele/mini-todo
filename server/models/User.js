@@ -29,14 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   },
     {
-      classMethods: {
-        associate: (models) => {
-          User.hasMany(models.Todo, {
-            foreignKey: 'userId',
-            onDelete: 'CASCADE'
-          });
-      }
-    },
       hooks: {
         beforeCreate: (user, options) => {
            user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10))
@@ -45,6 +37,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 );
+
+  User.associate = function(models) {
+    User.hasMany(models.Todo, {
+      onDelete: 'CASCADE'
+    });
+  }
 
   return User;
 };

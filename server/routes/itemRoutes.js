@@ -5,10 +5,12 @@ const authorize = new Authorization();
 const itemlist = new ItemController();
 
 const itemRoute = (router) => {
-  router.route('/todos/:id/item')
+  router.route('/todos/:id/items')
     .post(authorize.verifyToken, itemlist.createItemList)
-    .put(authorize.verifyToken, itemlist.updateItemList)
     .get(authorize.verifyToken, itemlist.fetchItemList)
+
+  router.route('/todo/:id/items/:item_id')
+    .put(authorize.verifyToken, itemlist.updateItemList)
 }
 
 export default itemRoute;

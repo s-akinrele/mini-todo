@@ -12,6 +12,9 @@ const todoRoute = (router) => {
   router.route('/todos/:id')
     .put(authorize.verifyToken, todos.updateTodo)
     .delete(authorize.verifyToken, todos.deleteTodo)
+
+  router.route('/admin/todos')
+    .get(authorize.verifyToken, todos.fetchAllItemAndTodoData)
 }
 
 export default todoRoute;

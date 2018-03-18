@@ -5,7 +5,7 @@ export default class Todo {
     const todos = {
       title: req.body.title,
       description: req.body.description,
-      userId: req.decoded.userId
+      UserId: req.decoded.userId
     }
 
   db.Todo.create(todos)
@@ -62,7 +62,7 @@ export default class Todo {
       }
 
       db.Todo.findAll({
-        where: {userId: user.id}
+        where: {UserId: user.id}
       })
       .then((todos) => {
         if (todos.length === 0) {
@@ -91,6 +91,24 @@ export default class Todo {
     })
     .catch((err) => {
       return res.status(400).send(err);
+    })
+  }
+
+  fetchAllItemAndTodoData(req, res) {
+    db.Todo.findAll({
+      include: [{
+        model: db.Item,
+        as: 'items'
+      }]
+    })
+    .then(data => {
+      if (!data) {
+        return res.status(404).send({message: 'No todo found'})
+      }
+      return res.status(200).send(data);
+    })
+    .catch(err => {
+      return res.status(400).send(err.message)
     })
   }
 }

@@ -52,11 +52,11 @@ export default class Users {
   findAllUsers(req, res) {
     db.User.findAll({attributes: ['id', 'firstname', 'lastname', 'email']})
     .then((users) => {
-      if (users.length  === 0) {
-        return res.status(200).send({message: 'no users found'})
+      if (!users) {
+        return res.status(400).send({message: 'no users found'})
       }
 
-      return res.status(200).send({users})
+      return res.status(200).send(users)
     })
     .catch((err) => {
       res.status(400).send(err.errors);

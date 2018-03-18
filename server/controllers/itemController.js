@@ -15,7 +15,7 @@ export default class Item {
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
-        todoId: todo.id
+        TodoId: todo.id
       })
       .then((item) => {
         return res.status(200).send({message: 'item list created successfully', item});
@@ -33,13 +33,13 @@ export default class Item {
     db.Todo.findOne({
       where: {id: req.params.id}
     })
-    .then((todo) =>{
+    .then((todo) => {
       if (!todo) {
         return res.status(404).send({message: 'Todo not found'});
       }
 
       db.Item.findOne({
-        where: {todoId: todo.id}
+        where: {id: req.params.item_id}
       })
       .then((item) => {
         if (!item) {
@@ -58,9 +58,9 @@ export default class Item {
           return res.status(400).send(err);
         });
       })
-      .catch((err) => {
-        return res.status(400).send(err);
-      });   
+    })
+    .catch((err) => {
+      return res.status(400).send(err);
     });
   }
 
@@ -74,10 +74,10 @@ export default class Item {
       }
 
       db.Item.findAll({
-        where: {todoId: todo.id}
+        where: {TodoId: todo.id}
       })
       .then((items) => {
-        if (!items) {
+        if (items.length === 0) {
           return res.status(404).send({message: 'you have no items'})
         }
         
