@@ -9,7 +9,9 @@ const todoRoute = (router) => {
     .post(authorize.verifyToken, todos.createTodo)
     .get(authorize.verifyToken, todos.findAllTodos)
 
+    // TODO: add GET request for a single TODO
   router.route('/todos/:id')
+    .get(authorize.verifyToken, todos.findTodo)
     .put(authorize.verifyToken, todos.updateTodo)
     .delete(authorize.verifyToken, todos.deleteTodo)
 

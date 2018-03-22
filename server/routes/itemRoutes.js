@@ -9,8 +9,10 @@ const itemRoute = (router) => {
     .post(authorize.verifyToken, itemlist.createItemList)
     .get(authorize.verifyToken, itemlist.fetchItemList)
 
-  router.route('/todo/:id/items/:item_id')
+  router.route('/todos/:id/items/:item_id')
+    .get(authorize.verifyToken, itemlist.fetchItem)
     .put(authorize.verifyToken, itemlist.updateItemList)
+    .delete(authorize.verifyToken, itemlist.deleteItem)
 }
 
 export default itemRoute;

@@ -38,6 +38,22 @@ export default class Todo {
     });
   }
 
+  findTodo(req, res) {
+    db.Todo.findOne({
+      where: {id: req.params.id}
+    })
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send({message: 'Todo not found', todo})
+      }
+
+      return res.status(200).send(todo)
+    })
+    .catch(err => {
+      return res.status(400).send(err);
+    });
+  }
+
   findAllTodos(req, res) {
     db.Todo.findAll()
       .then((todos) => {

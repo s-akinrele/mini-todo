@@ -80,12 +80,63 @@ export default class Item {
         if (items.length === 0) {
           return res.status(404).send({message: 'you have no items'})
         }
-        
-        return res.status(200).send(items)    
+
+        return res.status(200).send(items)
       })
       .catch((err) => {
         return res.status(400).send(err);
       }); 
+    })
+  }
+
+  fetchItem(req, res) {
+    db.Todo.findOne({
+      where: {id: req.params.id}
+    })
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send({message: 'todo not found'})
+      }
+
+      db.Item.findOne({
+        where: {id: req.params.item_id}
+      })
+      .then((item) => {
+        if (item.length === 0) {
+          return res.status(404).send({message: 'item does not exist'})
+        }
+
+        return res.status(200).send(item)
+      })
+      .catch((err) => {
+        return res.status(400).send(err);
+      });
+    })
+  }
+
+  deleteItem(req, res) {
+    db.Todo.findOne({
+      where: {id: req.params.id}
+    })
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send({message: 'todo not found'})
+      }
+
+      db.Item.findOne({
+        where: {id: req.params.item_id}
+      })
+      .then(item => {
+        if (!item) {
+          return res.status(200).send({message: 'item not found'})
+        }
+
+        item.destroy()
+        return res.status(200).send({message: 'delete successful'});
+      })
+    })
+    .catch(err => {
+      return res.status(400).send(err);
     })
   }
 }
